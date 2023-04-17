@@ -2,26 +2,27 @@ import { StyleSheet, Text, View, Image, Button, Alert } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 
+
 import { COLORS } from '../constants'
 
-const ImageSelector = ({ onImage }) => {
+const ImageSelector = ({onImage}) => {
     const [pickedUri, setPickedUri] = useState()
 
     const VerifyPermissions = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync()
         console.log(status)
-        if (status !== 'granted') {
+        if(status !== 'granted') {
             Alert.alert('Permisos insuficientes')
             return false
         }
         return true
 
-    }
+     }
 
     const handlerTakeImage = async () => {
         const isCameraOk = await VerifyPermissions()
         if (!isCameraOk) return
-
+        
         const image = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [16, 9],
@@ -30,7 +31,7 @@ const ImageSelector = ({ onImage }) => {
         console.log(image.assets)
         setPickedUri(image.assets[0].uri)
         onImage(image.assets[0].uri)
-    }
+     }
 
     return (
         <View style={styles.container}>
